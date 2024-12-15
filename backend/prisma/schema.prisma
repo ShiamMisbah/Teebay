@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  ELECTRONICS
+  FURNITURE
+  HOME_APPLIANCES
+  SPROTING_GOODS
+  OUTDOOR
+  TOYS
+}
+
+enum RentOption {
+  PER_HOUR
+  PER_DAY
+  PER_MONTH
+  PER_YEAR
+}
+
+enum ProductStatus {
+  POSTED
+  RENTED
+  SOLD
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  firstName String
+  lastName String
+  address String
+  email String @unique
+  phoneNumber BigInt
+  password String
+  products Product[]  // Relation to products
+  rentedProductsToOther RentedProduct[] @relation("original")
+  productsRented RentedProduct[] @relation("customer")
+  soldProductsToOther SoldProduct[] @relation("original")
+  productsSold SoldProduct[] @relation("customer")
+}
+
+model Product {
+  id Int @id @default(autoincrement())
+  title String
+  category Category
+  description String
+  price Int
+  rent Int
+  rentOption RentOption
+  datePosted DateTime
+  productStatus ProductStatus @default(POSTED)
+  userId Int // Foreign key
+  user User @relation(fields: [userId], references: [id]) // Relation to User
+  productRented RentedProduct[]
+  productSold SoldProduct[]
+}
+
+model RentedProduct {
+  id Int @id @default(autoincrement())
+  dateStart DateTime
+  dateEnd DateTime
+  rentOption RentOption
+  rentPrice Int
+  productId Int // Foreign key
+  product Product @relation(fields: [productId], references: [id]) // Relation to Product
+  originalUserId Int // Foreign key
+  originalUser User @relation("original", fields: [originalUserId], references: [id]) // Relation to User
+  rentedUserId Int? // Foreign key
+  rentedUser User? @relation("customer",fields: [rentedUserId], references: [id]) // Relation to User
+}
+
+model SoldProduct {
+  id Int @id @default(autoincrement())
+  sellingPrice Int
+  dateSold DateTime
+  productId Int // Foreign key
+  product Product @relation(fields: [productId], references: [id]) // Relation to User
+  originalUserId Int // Foreign key
+  originalUser User @relation("original", fields: [originalUserId], references: [id]) // Relation to User
+  boughtUserId Int? // Foreign key
+  boughtUser User? @relation("customer",fields: [boughtUserId], references: [id]) // Relation to User
+}
