@@ -3,16 +3,14 @@
 html,
 body,
 #root,
-.app,
-.content {
+.app{
     height: 100%;
     width: 100%;
     font-family: "Source Sans 3", sans-serif;
     box-sizing: border-box;
 }
 
-.app {
+.content {
     max-width: 1200px;
     margin: 0px auto;
-    padding-top: 80px;
 }

@@ -7,6 +7,7 @@ import { SIGNUP_USER } from '../queries/userQueries';
 import { useMutation } from '@apollo/client';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useAuthContext } from '../context/AuthContext';
+import Heading from '../components/Heading';
 
 const Signup = () => {
     const navigate = useNavigate()
@@ -69,9 +70,7 @@ const Signup = () => {
             alignItems="center"
             flexDirection="column"
         >
-            <Typography variant="h4" gutterBottom mb={2}>
-            SIGN UP
-            </Typography>
+            <Heading title={'SIGN UP'} />
             <Box border="1px solid black" width="600px" p={5}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2}>

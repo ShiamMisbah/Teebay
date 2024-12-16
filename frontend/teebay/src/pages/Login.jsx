@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../queries/userQueries';
 import { useAuthContext } from '../context/AuthContext';
+import Heading from '../components/Heading';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -48,10 +49,8 @@ const Login = () => {
         alignItems="center"
         flexDirection="column"
       >
-        <Typography variant="h4" gutterBottom mb={2}>
-          SIGN IN
-        </Typography>
-        <Box border="1px solid black" width="300px" height="350px" p={5}>
+        <Heading title={'SIGN IN'} />
+        <Box border="1px solid black" width="300px" p={5}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2} display="flex" flexDirection="column">
               <Grid>
