@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap');
+
+html,
+body,
+#root,
+.app,
+.content {
+    height: 100%;
+    width: 100%;
+    font-family: "Source Sans 3", sans-serif;
+    box-sizing: border-box;
+}
+
+.app {
+    max-width: 1200px;
+    margin: 0px auto;
+    padding-top: 80px;
+}
