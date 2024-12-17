@@ -3,10 +3,23 @@ import prisma from "../../config/database.js";
 const productResolver = {
   Query: {
     getProducts: async () => {
-      return await prisma.product.findMany({ orderBy: { id: "desc" } });
+      return await prisma.product.findMany({
+        include: { user: true },
+        orderBy: { id: "desc" },
+      });
+    },
+    getProductById: async (_, {id}) => {      
+          return await prisma.product.findUnique({
+        where: { id },
+        include: { user: true },
+      });
     },
     getUserProducts: async (_, {userID}) => {
-        return await prisma.product.findMany({ orderBy: { id: "desc" }, where: {userId: userID} });
+        return await prisma.product.findMany({
+          include: {user: true},
+          orderBy: { id: "desc" },
+          where: { userId: userID },
+        });
     }
   },
   Mutation: {
@@ -78,7 +91,6 @@ const productResolver = {
             price,
             rent,
             rentOption,
-            productStatus,
             } = input;
 
             // Validate required fields
@@ -117,7 +129,6 @@ const productResolver = {
                 ...(price && { price }),
                 ...(rent && { rent }),
                 ...(rentOption && { rentOption }),
-                ...(productStatus && { productStatus }),
             },
             });
 

@@ -13,6 +13,34 @@ export const GET_ALL_PRODUCTS = gql`
       rent
       rentOption
       title
+      user {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const GET_PRODUCTS_BY_ID = gql`
+  #graphql
+  query GET_PRODUCTS_BY_ID($getProductById: Int!) {
+    getProductById(id: $getProductById) {
+      id
+      title
+      category
+      description
+      price
+      rent
+      rentOption
+      productStatus
+      userId
+      user {
+        id
+        firstName
+        lastName
+      }
+      createdAt
     }
   }
 `;
@@ -30,6 +58,11 @@ export const GET_MY_PRODUCTS = gql`
       rent
       rentOption
       title
+      user {
+        id
+        firstName
+        lastName
+      }
     }
   }
 `;
@@ -41,6 +74,32 @@ export const ADD_PRODUCTS = gql`
       id
       title
       createdAt
+    }
+  }
+`;
+
+export const UPDATE_PRODUCTS = gql`
+  #graphql
+  mutation UpdateProducts($updateProductId: Int!, $input: UpdateProductInput!) {
+    updateProduct(id: $updateProductId, input: $input) {
+      category
+      description
+      id
+      price
+      rent
+      rentOption
+      title
+      updatedAt
+    }
+  }
+`;
+
+export const DELETE_PRODUCTS = gql`
+  #graphql
+  mutation DeleteProduct($deleteProductId: Int!) {
+    deleteProduct(id: $deleteProductId) {
+      message
+      success
     }
   }
 `;

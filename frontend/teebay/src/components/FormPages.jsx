@@ -25,14 +25,14 @@ export const FormPage1 = ({ control, onNext }) => {
 };
 
 export const FormPage2 = ({ control, onNext, onBack }) => {
-      const categories = [
-        "ELECTRONICS",
-        "FIRNITURE",
-        "HOME APPLIANCES",
-        "SPORTING GOODS",
-        "OUTDOOR",
-        "TOYS",
-      ];
+  const categories = [
+    "ELECTRONICS",
+    "FURNITURE",
+    "HOME APPLIANCES",
+    "SPORTING GOODS",
+    "OUTDOOR",
+    "TOYS",
+  ];
   return (
     <Box>
       <Heading title={"Select categories"} />

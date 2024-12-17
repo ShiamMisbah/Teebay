@@ -5,35 +5,59 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Box } from "@mui/material";
-
+import { Box, IconButton, Modal } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useState } from "react";
+import { DELETE_PRODUCTS } from "../queries/productQueries";
+import { useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 const ProductCard = ({ product, isMy=false }) => {
-  const desc =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem, architecto ab eveniet eos quos iure. Est aspernatur quae reiciendis ducimus, consequuntur commodi natus ullam sunt, placeat, ipsum vitae eum nobis aliquam necessitatibus nulla at praesentium? Sed sapiente minus ipsam necessitatibus nostrum animi exercitationem error rem ex alias hic nam doloribus sint repellendus, iusto natus? Possimus quia accusamus quaerat unde! Suscipit veniam consequatur laudantium ab, vero maiores necessitatibus assumenda, ullam quam eaque in deserunt consequuntur repellat? Nisi doloremque iste hic? Illum voluptatum dolor ducimus nostrum laudantium. Non eius nostrum assumenda doloremque pariatur enim id possimus cupiditate corrupti delectus, atque, vel odio?";
-  const data = {
-    title: "Cricket Kit",
-    categories: ["Sport", "Hobby"],
-    description: desc,
-    sellPrice: "$50",
-    rentPrice: "$20",
-    rentOption: "Day",
-    createdAt: "25 Dec 2024",
-    views: "123456",
-  };
+  const navigate = useNavigate()
+  const [deleteProduct, { data: productData, loading, error }] = useMutation(DELETE_PRODUCTS);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
   const handleToggle = () => {
-    console.log(data.description);
+    console.log(product.description);
   };
-  const handleCardClick = (data) => {
-    console.log(data);
-    
+
+
+  const handleCardClick = (id) => {
+    navigate(`/editProduct/${id}`);
+  }
+
+  const handleDeleteProduct = (productID) => {
+    deleteProduct({
+      variables: {deleteProductId: productID,}
+    });
+    if (productData) {
+      console.log(productData);
+      alert(productData.deleteProduct.message);
+    }
+    handleClose()
   }
 
   return (
     <Box mb={2}>
       <Card
-        sx={{ border: "1px solid gray", cursor: isMy ? "pointer" : "default" }}
+        sx={{
+          border: "1px solid gray",
+          cursor: isMy ? "pointer" : "default",
+          position: "relative",
+        }}
         onClick={isMy ? () => handleCardClick(product.id) : undefined}
       >
+        {isMy && (
+          <IconButton
+            onClick={handleOpen}
+            aria-label="delete"
+            sx={{ position: "absolute", right: "10px", top: "10px" }}
+          >
+            <DeleteIcon />
+          </IconButton>
+        )}
         <CardContent>
           <Typography gutterBottom variant="h5" sx={{ color: "text.primary" }}>
             {product.title}
@@ -77,10 +101,41 @@ const ProductCard = ({ product, isMy=false }) => {
             <Typography variant="body2">
               Posted At {product.createdAt}
             </Typography>
-            <Typography variant="body2">{data.views} Views</Typography>
+            <Typography variant="body2">123456 Views</Typography>
           </Box>
+          <Typography variant="body2">
+            Posted BY {product.user.firstName} {product.user.lastName}
+          </Typography>
         </CardContent>
       </Card>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to delete this product?
+          </Typography>
+          <Box display='flex' justifyContent='space-between' mt={3}>
+            <Button onClick={()=>handleDeleteProduct(product.id)} variant="contained" color="error">Yes</Button>
+            <Button onClick={handleClose} variant="contained" color="info">No</Button>
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 };

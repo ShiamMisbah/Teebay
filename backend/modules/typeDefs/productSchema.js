@@ -28,6 +28,7 @@ const productTypeDefs = `#graphql
         rentOption: RentOption!
         productStatus: ProductStatus!
         userId: Int!
+        user: User!
         # productRented: [RentedProduct!]
         # productSold: [SoldProduct!]
         createdAt: String!

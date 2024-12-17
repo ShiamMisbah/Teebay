@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import { ADD_PRODUCTS } from '../queries/productQueries';
 import { useMutation } from '@apollo/client';
 import { useAuthContext } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 const ProductForm = () => {
     const [step, setStep] = useState(1);
@@ -12,6 +13,7 @@ const ProductForm = () => {
     const { control, handleSubmit } = useForm();
     const [addProduct, { data, loading, error }] = useMutation(ADD_PRODUCTS);
     const { authUser } = useAuthContext()
+    const navigate = useNavigate()
     
     const handleNext = (data) => {
       setFormData((prev) => ({ ...prev, ...data }));
@@ -31,12 +33,11 @@ const ProductForm = () => {
             await addProduct({
               variables: { input: finalData },
             });
+            navigate('/myProduct')
             alert('Product Added')
         } catch (err) {
         console.error("Unexpected Error:", err.message);
         }
-        console.log(finalData);
-        
     };
 
     return (
