@@ -5,9 +5,11 @@ import userResolvers from "./modules/resolvers/userResolver.js";
 import userTypeDefs from "./modules/typeDefs/userTypeDefs.js";
 import { mergeTypeDefs } from "@graphql-tools/merge";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import productTypeDefs from "./modules/typeDefs/productSchema.js";
+import productResolver from "./modules/resolvers/productResolver.js";
 
-const typeDefs = mergeTypeDefs([userTypeDefs])
-const resolvers = [userResolvers]
+const typeDefs = mergeTypeDefs([userTypeDefs, productTypeDefs])
+const resolvers = [userResolvers, productResolver]
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
