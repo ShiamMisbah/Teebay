@@ -9,6 +9,7 @@ import Topbar from './components/Topbar.jsx';
 import ProductForm from './pages/ProductForm.jsx';
 import MyProduct from './pages/MyProduct.jsx';
 import EditProductForm from './pages/EditProductForm.jsx';
+import ProductProfile from './pages/ProductProfile.jsx';
 function App() {
   const {authUser} = useAuthContext();  
 
@@ -40,6 +41,10 @@ function App() {
           <Route
             path="/editProduct/:id"
             element={authUser ? <EditProductForm /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/viewProduct/:id"
+            element={authUser ? <ProductProfile /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>

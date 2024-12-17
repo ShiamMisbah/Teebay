@@ -25,7 +25,11 @@ const ProductCard = ({ product, isMy=false }) => {
 
 
   const handleCardClick = (id) => {
-    navigate(`/editProduct/${id}`);
+    if (isMy){
+      navigate(`/editProduct/${id}`);
+    } else {
+      navigate(`/viewProduct/${id}`);
+    }
   }
 
   const handleDeleteProduct = (productID) => {
@@ -44,10 +48,10 @@ const ProductCard = ({ product, isMy=false }) => {
       <Card
         sx={{
           border: "1px solid gray",
-          cursor: isMy ? "pointer" : "default",
+          cursor: "pointer",
           position: "relative",
         }}
-        onClick={isMy ? () => handleCardClick(product.id) : undefined}
+        onClick={() => handleCardClick(product.id)}
       >
         {isMy && (
           <IconButton
@@ -87,9 +91,6 @@ const ProductCard = ({ product, isMy=false }) => {
             >
               {product.description}
             </Typography>
-            <Button variant="text" size="small" onClick={handleToggle}>
-              See More
-            </Button>
           </Box>
 
           <Box
