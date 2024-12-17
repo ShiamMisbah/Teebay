@@ -2,12 +2,17 @@ import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form';
 import { FormPage1, FormPage2, FormPage3, FormPage4, FormPage5 } from '../components/FormPages';
 import { Box } from '@mui/material';
+import { ADD_PRODUCTS } from '../queries/productQueries';
+import { useMutation } from '@apollo/client';
+import { useAuthContext } from '../context/AuthContext';
 
 const ProductForm = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({});
     const { control, handleSubmit } = useForm();
-
+    const [addProduct, { data, loading, error }] = useMutation(ADD_PRODUCTS);
+    const { authUser } = useAuthContext()
+    
     const handleNext = (data) => {
       setFormData((prev) => ({ ...prev, ...data }));
       setStep((prev) => prev + 1);
@@ -17,9 +22,21 @@ const ProductForm = () => {
       setStep((prev) => prev - 1);
     };
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         const finalData = { ...formData, ...data };
-        console.log("Final Form Data:", finalData);
+        finalData.price = Number(finalData.price)
+        finalData.rent = Number(finalData.rent);
+        finalData.userId = Number(authUser.id)
+        try {
+            await addProduct({
+              variables: { input: finalData },
+            });
+            alert('Product Added')
+        } catch (err) {
+        console.error("Unexpected Error:", err.message);
+        }
+        console.log(finalData);
+        
     };
 
     return (

@@ -7,6 +7,7 @@ import Home from './pages/Home.jsx';
 import Signup from './pages/Signup.jsx';
 import Topbar from './components/Topbar.jsx';
 import ProductForm from './pages/ProductForm.jsx';
+import MyProduct from './pages/MyProduct.jsx';
 function App() {
   const {authUser} = useAuthContext();  
 
@@ -30,6 +31,10 @@ function App() {
           <Route
             path="/productForm"
             element={authUser ? <ProductForm /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/myProduct"
+            element={authUser ? <MyProduct /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>

@@ -26,19 +26,19 @@ export const FormPage1 = ({ control, onNext }) => {
 
 export const FormPage2 = ({ control, onNext, onBack }) => {
       const categories = [
-        "Electronics",
-        "Furniture",
-        "Home Appliances",
-        "Sporting Goods",
-        "Outdoor",
-        "Toys",
+        "ELECTRONICS",
+        "FIRNITURE",
+        "HOME APPLIANCES",
+        "SPORTING GOODS",
+        "OUTDOOR",
+        "TOYS",
       ];
   return (
     <Box>
       <Heading title={"Select categories"} />
       <Box component="form" onSubmit={onNext} width="850px">
         <Controller
-          name="categories"
+          name="category"
           control={control}
           render={({ field }) => (
             <TextField
@@ -113,7 +113,7 @@ export const FormPage4 = ({ control, onNext, onBack }) => {
           <Grid2 container>
             <Grid2 size={12}>
               <Controller
-                name="sellPrice"
+                name="price"
                 control={control}
                 render={({ field }) => (
                   <TextField
@@ -121,6 +121,7 @@ export const FormPage4 = ({ control, onNext, onBack }) => {
                     label="Sell Price"
                     fullWidth
                     margin="normal"
+                    type="number"
                   />
                 )}
               />
@@ -130,7 +131,7 @@ export const FormPage4 = ({ control, onNext, onBack }) => {
           <Grid2 container spacing={2}>
             <Grid2 size={6}>
               <Controller
-                name="rentPrice"
+                name="rent"
                 control={control}
                 render={({ field }) => (
                   <TextField
@@ -138,6 +139,7 @@ export const FormPage4 = ({ control, onNext, onBack }) => {
                     label="Rent Price"
                     fullWidth
                     margin="normal"
+                    type="number"
                   />
                 )}
               />
@@ -155,13 +157,11 @@ export const FormPage4 = ({ control, onNext, onBack }) => {
                     displayEmpty
                     sx={{ mt: 2 }}
                   >
-                    <MenuItem value="" disabled>
-                      Select Option
-                    </MenuItem>
-                    <MenuItem value="hour">Per Hour</MenuItem>
-                    <MenuItem value="day">Per Day</MenuItem>
-                    <MenuItem value="month">Per Month</MenuItem>
-                    <MenuItem value="year">Per Year</MenuItem>
+                    <MenuItem value="HOURLY">Per Hour</MenuItem>
+                    <MenuItem value="DAILY">Per Day</MenuItem>
+                    <MenuItem value="WEEKLY">Per Month</MenuItem>
+                    <MenuItem value="MONTHLY">Per Month</MenuItem>
+                    <MenuItem value="YEARLY">Per Year</MenuItem>
                   </Select>
                 )}
               />
@@ -192,7 +192,7 @@ export const FormPage5 = ({ data, onSubmit, onBack }) => {
         </Grid2>
         <Grid2 container mt={2}>
           <Grid2 size={4}>Categories</Grid2>
-          <Grid2 size={8}>{data.categories.join(",")}</Grid2>
+          <Grid2 size={8}>{data.category.join(",")}</Grid2>
         </Grid2>
         <Grid2 container mt={2}>
           <Grid2 size={4}>Description</Grid2>
@@ -200,12 +200,12 @@ export const FormPage5 = ({ data, onSubmit, onBack }) => {
         </Grid2>
         <Grid2 container mt={2}>
           <Grid2 size={4}>Price</Grid2>
-          <Grid2 size={8}>${data.sellPrice}</Grid2>
+          <Grid2 size={8}>${data.price}</Grid2>
         </Grid2>
         <Grid2 container mt={2}>
           <Grid2 size={4}>Rent</Grid2>
           <Grid2 size={8}>
-            ${data.rentPrice} Per {data.rentOption}
+            ${data.rent} Per {data.rentOption}
           </Grid2>
         </Grid2>
       </Box>

@@ -34,7 +34,7 @@ const Topbar = () => {
             <Button onClick={() => navigate("/")} color="inherit">
               ALL Products
             </Button>
-            <Button onClick={() => navigate("/")} color="inherit">
+            <Button onClick={() => navigate("/myProduct")} color="inherit">
               My Products
             </Button>
           </Stack>

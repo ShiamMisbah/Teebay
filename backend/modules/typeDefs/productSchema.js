@@ -6,9 +6,11 @@ const productTypeDefs = `#graphql
     }
 
     enum RentOption {
+        HOURLY
         DAILY
         WEEKLY
         MONTHLY
+        YEARLY
     }
 
     type Message{
