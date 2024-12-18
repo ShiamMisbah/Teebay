@@ -1,8 +1,20 @@
-import { Box, Modal, Typography } from "@mui/material";
-import React from "react";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { useAuthContext } from "../context/AuthContext";
+import { useMutation } from "@apollo/client";
+import { CREATE_SOLD_PRODUCTS } from "../queries/buyProductQueries";
 
-const BuyModal = ({ open, setOpen }) => {
+const BuyModal = ({ open, setOpen, productData }) => {
   const handleClose = () => setOpen(false);
+  const {authUser} = useAuthContext()
+  const [sellProducts, { data, loading, error }] = useMutation(CREATE_SOLD_PRODUCTS)
+  const [buyData, setBuyData] = useState({
+    boughtUserId: Number(authUser.id),
+    dateSold: new Date().toISOString(),
+    originalUserId: Number(productData.user.id),
+    productId: Number(productData.id),
+  });
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -14,6 +26,23 @@ const BuyModal = ({ open, setOpen }) => {
     boxShadow: 24,
     p: 4,
   };
+  const handleSubmit = async () => {
+    try {
+        await sellProducts({
+          variables: { input:{...buyData} },
+        });
+        if (data) {
+          if (data.createSoldProduct) {
+            alert("Product Buying successful");
+          } else {
+            alert("Product Buying failed");
+          }
+        }
+      } catch (err) {
+          console.error("Unexpected Error:", err.message);
+      }
+    }
+
   return (
     <Modal
       open={open}
@@ -22,12 +51,21 @@ const BuyModal = ({ open, setOpen }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
+        <Box>
+          
+        </Box>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Are you sure you want to buy this product?
         </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-        </Typography>
+        <Box mt={3} display="flex" justifyContent="flex-end" gap={5}>
+          <Button onClick={handleSubmit} variant="contained">
+            YES
+          </Button>
+          <Button onClick={handleClose} color="error" variant="contained">
+            NO
+          </Button>
+        </Box>
+        
       </Box>
     </Modal>
   );

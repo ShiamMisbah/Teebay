@@ -92,8 +92,16 @@ const ProductProfile = () => {
             RENT Product
           </Button>
         </Box>
-        <RentModal open={rentalModalOpen} setOpen={setRentalModalOpen} />
-        <BuyModal open={buyModalOpen} setOpen={setBuyModalOpen} />
+        <RentModal
+          open={rentalModalOpen}
+          productData={data.getProductById}
+          setOpen={setRentalModalOpen}
+        />
+        <BuyModal
+          open={buyModalOpen}
+          productData={data.getProductById}
+          setOpen={setBuyModalOpen}
+        />
       </Box>
     );
 }
