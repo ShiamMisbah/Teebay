@@ -14,59 +14,59 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement()) // Unique identifier for the user
-  firstName String // User's first name
-  lastName String // User's last name
-  address String // User's address
-  email String @unique // User's email, must be unique
-  phoneNumber BigInt // User's phone number
-  password String // User's password
-  products Product[] // List of products posted by the user
-  rentedProductsToOther RentedProduct[] @relation("original") // Products rented out by this user to others
-  productsRented RentedProduct[] @relation("customer") // Products rented by this user from others
-  soldProductsToOther SoldProduct[] @relation("original") // Products sold by this user to others
-  productsSold SoldProduct[] @relation("customer") // Products bought by this user from others
-  createdAt DateTime @default(now()) // Timestamp when the user was created
+  id                      Int @id @default(autoincrement())       // Unique identifier for the user
+  firstName               String                                  // User's first name
+  lastName                String                                  // User's last name
+  address                 String                                  // User's address
+  email                   String @unique                          // User's email, must be unique
+  phoneNumber             BigInt                                  // User's phone number
+  password                String                                  // User's password
+  products                Product[]                               // List of products posted by the user
+  rentedProductsToOther   RentedProduct[] @relation("original")   // Products rented out by this user to others
+  productsRented          RentedProduct[] @relation("customer")   // Products rented by this user from others
+  soldProductsToOther     SoldProduct[] @relation("original")     // Products sold by this user to others
+  productsSold            SoldProduct[] @relation("customer")     // Products bought by this user from others
+  createdAt               DateTime @default(now())                // Timestamp when the user was created
 }
 
 model Product {
-  id Int @id @default(autoincrement()) // Unique identifier for the product
-  title String // Product title/name
-  category String[] // Product category
-  description String // Product description
-  price Int // Selling price of the product
-  rent Int // Rent price of the product
-  rentOption String // Rent option (e.g., daily, weekly)
-  productStatus String @default("POSTED") // Status of the product (e.g., POSTED, SOLD, RENTED)
-  userId Int // Foreign key for the user who posted the product
-  user User @relation(fields: [userId], references: [id]) // Relation to the user who posted the product
-  productRented RentedProduct[] // List of rentals associated with the product
-  productSold SoldProduct[] // List of sales associated with the product
-  createdAt DateTime @default(now()) // Timestamp when the product was created
-  updatedAt DateTime @updatedAt // Timestamp when the product was updated
+  id              Int @id @default(autoincrement())                   // Unique identifier for the product
+  title           String                                              // Product title/name
+  category        String[]                                            // Product category
+  description     String                                              // Product description
+  price           Int                                                 // Selling price of the product
+  rent            Int                                                 // Rent price of the product
+  rentOption      String                                              // Rent option (e.g., daily, weekly)
+  productStatus   String @default("POSTED")                           // Status of the product (e.g., POSTED, SOLD, RENTED)
+  userId          Int                                                 // Foreign key for the user who posted the product
+  user            User @relation(fields: [userId], references: [id])  // Relation to the user who posted the product
+  productRented   RentedProduct[]                                     // List of rentals associated with the product
+  productSold     SoldProduct[]                                       // List of sales associated with the product
+  createdAt       DateTime @default(now())                            // Timestamp when the product was created
+  updatedAt       DateTime @updatedAt                                 // Timestamp when the product was updated
 }
 
 model RentedProduct {
-  id Int @id @default(autoincrement()) // Unique identifier for the rented product
-  dateStart String // Start date of the rental period
-  dateEnd String // End date of the rental period
-  productId Int // Foreign key for the product being rented
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Relation to the product being rented
-  originalUserId Int // Foreign key for the user who owns the product
-  originalUser User @relation("original", fields: [originalUserId], references: [id]) // Relation to the original owner of the product
-  rentedUserId Int? // Foreign key for the user renting the product
-  rentedUser User? @relation("customer", fields: [rentedUserId], references: [id]) // Relation to the user renting the product
-  createdAt DateTime @default(now()) // Timestamp when the rental was created
+  id                  Int @id @default(autoincrement())                                               // Unique identifier for the rented product
+  dateStart           String                                                                          // Start date of the rental period
+  dateEnd             String                                                                          // End date of the rental period
+  productId           Int                                                                             // Foreign key for the product being rented
+  product             Product @relation(fields: [productId], references: [id], onDelete: Cascade)     // Relation to the product being rented
+  originalUserId      Int                                                                             // Foreign key for the user who owns the product
+  originalUser        User @relation("original", fields: [originalUserId], references: [id])          // Relation to the original owner of the product
+  rentedUserId        Int?                                                                            // Foreign key for the user renting the product
+  rentedUser          User? @relation("customer", fields: [rentedUserId], references: [id])           // Relation to the user renting the product
+  createdAt           DateTime @default(now())                                                        // Timestamp when the rental was created
 }
 
 model SoldProduct {
-  id Int @id @default(autoincrement()) // Unique identifier for the sold product
-  dateSold DateTime // Date when the product was sold
-  productId Int // Foreign key for the product being sold
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Relation to the product being sold
-  originalUserId Int // Foreign key for the user who sold the product
-  originalUser User @relation("original", fields: [originalUserId], references: [id]) // Relation to the original seller of the product
-  boughtUserId Int? // Foreign key for the user buying the product
-  boughtUser User? @relation("customer", fields: [boughtUserId], references: [id]) // Relation to the user buying the product
-  createdAt DateTime @default(now()) // Timestamp when the sale was created
+  id                  Int @id @default(autoincrement())                                                   // Unique identifier for the sold product
+  dateSold            DateTime                                                                            // Date when the product was sold
+  productId           Int                                                                                 // Foreign key for the product being sold
+  product             Product @relation(fields: [productId], references: [id], onDelete: Cascade)         // Relation to the product being sold
+  originalUserId      Int                                                                                 // Foreign key for the user who sold the product
+  originalUser        User @relation("original", fields: [originalUserId], references: [id])              // Relation to the original seller of the product
+  boughtUserId        Int?                                                                                // Foreign key for the user buying the product
+  boughtUser          User? @relation("customer", fields: [boughtUserId], references: [id])               // Relation to the user buying the product
+  createdAt           DateTime @default(now())                                                            // Timestamp when the sale was created
 }
