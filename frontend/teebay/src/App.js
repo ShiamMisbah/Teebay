@@ -10,6 +10,7 @@ import ProductForm from './pages/ProductForm.jsx';
 import MyProduct from './pages/MyProduct.jsx';
 import EditProductForm from './pages/EditProductForm.jsx';
 import ProductProfile from './pages/ProductProfile.jsx';
+import UserDashboard from './pages/UserDashboard.jsx';
 function App() {
   const {authUser} = useAuthContext();  
 
@@ -29,6 +30,10 @@ function App() {
           <Route
             path="/signup"
             element={authUser ? <Navigate to="/" /> : <Signup />}
+          />
+          <Route
+            path="/myDashboard"
+            element={authUser ? <UserDashboard /> : <Navigate to="/login" />}
           />
           <Route
             path="/productForm"

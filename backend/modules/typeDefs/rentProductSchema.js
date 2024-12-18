@@ -13,10 +13,8 @@ const rentProductTypeDefs = `#graphql
   }
 
   type Query {
-    getRentedProducts: [RentedProduct!]!
-    getRentedProductById(id: Int!): RentedProduct
-    getUserRentPostProducts(originalUserId: Int!): [RentedProduct!]
-    getUserRentedProducts(rentedUserId: Int!): [RentedProduct!]
+    getUserRentedProducts(originalUserId: Int!): [RentedProduct!]
+    getUserBorrowedProducts(rentedUserId: Int!): [RentedProduct!]
   }
 
     input AddProductRentInput {

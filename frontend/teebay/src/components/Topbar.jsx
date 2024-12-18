@@ -11,7 +11,10 @@ const Topbar = () => {
         setAuthUser(null);
     }
     return (
-      <AppBar position="static" sx={{padding: '0px 50px', marginBottom: '50px'}}>
+      <AppBar
+        position="static"
+        sx={{ padding: "0px 50px", marginBottom: "50px" }}
+      >
         <Toolbar>
           <Typography
             variant="h6"
@@ -36,6 +39,9 @@ const Topbar = () => {
             </Button>
             <Button onClick={() => navigate("/myProduct")} color="inherit">
               My Products
+            </Button>
+            <Button onClick={() => navigate("/myDashboard")} color="inherit">
+              My Dashboard
             </Button>
           </Stack>
           <Stack direction="row" spacing={2}>

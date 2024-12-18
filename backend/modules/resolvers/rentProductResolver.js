@@ -1,25 +1,14 @@
 import prisma from "../../config/database.js";
 
-const rentedProductResolver = {
+const rentProductResolver = {
   Query: {
-    getRentedProducts: async () => {
-      return await prisma.rentedProduct.findMany({
-        include: { product: true, originalUser: true, rentedUser: true },
-      });
-    },
-    getRentedProductById: async (_, { id }) => {
-      return await prisma.rentedProduct.findUnique({
-        where: { id },
-        include: { product: true, originalUser: true, rentedUser: true },
-      });
-    },
-    getUserRentPostProducts: async (_, { originalUserId }) => {
+    getUserRentedProducts: async (_, { originalUserId }) => {
       return await prisma.rentedProduct.findMany({
         where: { originalUserId },
         include: { product: true },
       });
     },
-    getUserRentedProducts: async (_, { rentedUserId }) => {
+    getUserBorrowedProducts: async (_, { rentedUserId }) => {
       return await prisma.rentedProduct.findMany({
         where: { rentedUserId },
         include: { product: true },
@@ -71,7 +60,7 @@ const rentedProductResolver = {
         // Update the product
         await prisma.product.update({
           where: { id: productId },
-            data: { productStatus: productStatus },
+          data: { productStatus: productStatus },
         });
 
         return newProductRent;
@@ -83,4 +72,4 @@ const rentedProductResolver = {
   },
 };
 
-export default rentedProductResolver
+export default rentProductResolver

@@ -12,10 +12,8 @@ const soldProductTypeDefs = `#graphql
   }
 
   type Query {
-    getSoldProducts: [SoldProduct!]!
-    getSoldProductById(id: Int!): SoldProduct
-    getUserSoldPostProducts(originalUserId: Int!): [SoldProduct!]
-    getUserSoldProducts(boughtUserId: Int!): [SoldProduct!]
+    getUserSoldProducts(originalUserId: Int!): [SoldProduct]
+    getUserBoughtProducts(boughtUserId: Int!): [SoldProduct]
   }
 
     input AddProductSoldInput {
