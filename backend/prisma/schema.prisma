@@ -48,10 +48,8 @@ model Product {
 
 model RentedProduct {
   id Int @id @default(autoincrement()) // Unique identifier for the rented product
-  dateStart DateTime // Start date of the rental period
-  dateEnd DateTime // End date of the rental period
-  rentOption String // Rent option (e.g., daily, weekly)
-  rentPrice Int // Rental price for the period
+  dateStart String // Start date of the rental period
+  dateEnd String // End date of the rental period
   productId Int // Foreign key for the product being rented
   product Product @relation(fields: [productId], references: [id]) // Relation to the product being rented
   originalUserId Int // Foreign key for the user who owns the product
@@ -63,7 +61,6 @@ model RentedProduct {
 
 model SoldProduct {
   id Int @id @default(autoincrement()) // Unique identifier for the sold product
-  sellingPrice Int // Selling price of the product
   dateSold DateTime // Date when the product was sold
   productId Int // Foreign key for the product being sold
   product Product @relation(fields: [productId], references: [id]) // Relation to the product being sold

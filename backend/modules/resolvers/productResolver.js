@@ -2,7 +2,7 @@ import prisma from "../../config/database.js";
 
 const productResolver = {
   Query: {
-    getProducts: async () => {
+    getProducts: async () => {      
       return await prisma.product.findMany({
         include: { user: true },
         orderBy: { id: "desc" },
@@ -137,6 +137,42 @@ const productResolver = {
             console.error("Error updating product:", error.message);
             throw new Error("Failed to update product. Please try again.");
         }
+    },
+    updateProductStatus: async (_, {id, productStatus}) => {
+      try {
+        // Validate required fields
+        if (!id) {
+          throw new Error("Product ID is required for updating.");
+        }
+        // Check if the product exists
+        const existingProduct = await prisma.product.findUnique({
+          where: { id },
+        });
+        if (!existingProduct) {
+          throw new Error("Product not found.");
+        }
+        // Validate rentOption if provided
+        const validStatusOptions = ["POSTED", "SOLD", "RENTED"]; // Ensure this aligns with your Prisma enum
+        if (productStatus && !validStatusOptions.includes(productStatus)) {
+          throw new Error(
+            `Invalid status option. Valid options are: ${validStatusOptions.join(
+              ", "
+            )}`
+          );
+        }
+        // Update the product
+        const updatedProduct = await prisma.product.update({
+          where: { id },
+          data: {
+            ...(productStatus && { productStatus }),
+          },
+        });
+
+        return updatedProduct;
+      } catch (error) {
+        console.error("Error updating product:", error.message);
+        throw new Error("Failed to update product. Please try again.");
+      }
     },
     deleteProduct: async (_, { id }) => {
         try {

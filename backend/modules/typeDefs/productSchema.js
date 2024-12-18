@@ -63,6 +63,7 @@ const productTypeDefs = `#graphql
     type Mutation {
         addProduct(input: AddProductInput!): Product!
         updateProduct(id: Int!, input: UpdateProductInput!): Product!
+        updateProductStatus(id: Int!, productStatus: ProductStatus!): Product!
         deleteProduct(id: Int!): Message!
     }
 `;

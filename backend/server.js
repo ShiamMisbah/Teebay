@@ -7,9 +7,13 @@ import { mergeTypeDefs } from "@graphql-tools/merge";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import productTypeDefs from "./modules/typeDefs/productSchema.js";
 import productResolver from "./modules/resolvers/productResolver.js";
+import rentProductTypeDefs from "./modules/typeDefs/rentProductSchema.js";
+import rentedProductResolver from "./modules/resolvers/rentedProductResolver.js";
+import soldProductTypeDefs from "./modules/typeDefs/BuyProductSchema.js";
+import soldProductResolver from "./modules/resolvers/soldProductResolver.js";
 
-const typeDefs = mergeTypeDefs([userTypeDefs, productTypeDefs])
-const resolvers = [userResolvers, productResolver]
+const typeDefs = mergeTypeDefs([userTypeDefs, productTypeDefs, rentProductTypeDefs, soldProductTypeDefs])
+const resolvers = [userResolvers, productResolver, rentedProductResolver, soldProductResolver];
 
 const schema = makeExecutableSchema({typeDefs, resolvers})
 
