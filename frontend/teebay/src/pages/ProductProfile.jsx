@@ -1,16 +1,19 @@
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Heading from '../components/Heading';
 import { useQuery } from '@apollo/client';
 import { GET_PRODUCTS_BY_ID } from '../queries/productQueries';
+import RentModal from '../components/RentModal';
+import BuyModal from '../components/BuyModal';
 
 const ProductProfile = () => {
     const {id} = useParams()
+    const [rentalModalOpen, setRentalModalOpen] = useState(false)
+    const [buyModalOpen, setBuyModalOpen] = useState(false);
     const { loading, error, data } = useQuery(GET_PRODUCTS_BY_ID, {
     variables: { getProductById: Number(id) },
     });
-    console.log(data);
   
   if (loading) {
     return <div>...Loading</div>;
@@ -28,9 +31,15 @@ const ProductProfile = () => {
 
     const handleAction = (id, action) => {
         console.log(id, action);
+        if (action === "rent"){
+          setRentalModalOpen(true);
+        }
+        if (action === "buy") {
+          setBuyModalOpen(true);
+        }
+        
         
     }
-    
     return (
       <Box>
         <Heading title={"View Product"} />
@@ -76,10 +85,15 @@ const ProductProfile = () => {
           >
             BUY Product
           </Button>
-          <Button onClick={() =>handleAction(product.id, "rent")} variant="contained">
+          <Button
+            onClick={() => handleAction(product.id, "rent")}
+            variant="contained"
+          >
             RENT Product
           </Button>
         </Box>
+        <RentModal open={rentalModalOpen} setOpen={setRentalModalOpen} />
+        <BuyModal open={buyModalOpen} setOpen={setBuyModalOpen} />
       </Box>
     );
 }
