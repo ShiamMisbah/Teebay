@@ -5,20 +5,18 @@ const rentProductResolver = {
     getUserRentedProducts: async (_, { originalUserId }) => {
       return await prisma.rentedProduct.findMany({
         where: { originalUserId },
-        include: { product: true },
+        include: {product: true, originalUser: true, rentedUser: true },
       });
     },
     getUserBorrowedProducts: async (_, { rentedUserId }) => {
       return await prisma.rentedProduct.findMany({
         where: { rentedUserId },
-        include: { product: true },
+        include: {product: true, originalUser: true, rentedUser: true },
       });
     },
   },
   Mutation: {
     createRentedProduct: async (_, { input }) => {
-      console.log("ashche");
-
       try {
         const { dateStart, dateEnd, productId, originalUserId, rentedUserId } =
           input;

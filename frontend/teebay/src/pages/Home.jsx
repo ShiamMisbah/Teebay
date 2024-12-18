@@ -15,16 +15,13 @@ const Home = () => {
   if (error) return `Error! ${error.message}`;
 
   const filterProducts = (userID, productList) => {
-    console.log(userID, productList);
     const filterList = productList.filter(x => x.user.id !== userID)
     return filterList;
   };
 
   if (data){
     if (data.getProducts){
-      filteredList = filterProducts(authUser.id, data.getProducts)
-      console.log(filteredList);
-      
+      filteredList = filterProducts(authUser.id, data.getProducts)      
     }
   }
 

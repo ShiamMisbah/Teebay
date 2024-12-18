@@ -5,15 +5,14 @@ const soldProductResolver = {
     getUserSoldProducts: async (_, { originalUserId }) => {
       return await prisma.soldProduct.findMany({
         where: { originalUserId },
-        include: { product: true,product: true, originalUser: true, boughtUser: true },
+        include: {product: true, originalUser: true, boughtUser: true },
       });
     },
     getUserBoughtProducts: async (_, { boughtUserId }) => {  
       const data = await prisma.soldProduct.findMany({
         where: { boughtUserId },
-        include: { product: true,product: true, originalUser: true, boughtUser: true  },
+        include: {product: true, originalUser: true, boughtUser: true  },
       }); 
-      console.log(data);
              
       return data
     },

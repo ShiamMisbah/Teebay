@@ -8,35 +8,26 @@ import TabPanel from "@mui/lab/TabPanel";
 import { useQuery } from '@apollo/client';
 import { GET_BOUGHT_PRODUCTS } from '../queries/buyProductQueries';
 import { useAuthContext } from '../context/AuthContext';
+import BoughtData from '../components/BoughtData';
+import SoldData from '../components/SoldData';
+import BorrowedData from '../components/BorrowedData';
+import LentData from '../components/LentData';
 
 const UserDashboard = () => {
-    const { authUser } = useAuthContext()
+    
     // const {
     //   data: borrowedData,
     //   loading: borrowedLoading,
     //   error: borrowedError,
     // } = useQuery();
-    const {
-      data: boughtData,
-      loading: boughtLoading,
-      error: boughtError,
-    } = useQuery(GET_BOUGHT_PRODUCTS, {
-      variables: { boughtUserId: Number(authUser.id) },
-    });
-
-    console.log(boughtData);
+    
     
     const [value, setValue] = useState("1");
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
 
-    if (boughtLoading) {
-      return <div>...Loading</div>;
-    }
-    if (boughtError) {
-      return <div>{boughtError.message}</div>;
-    }
+
     return (
       <Box>
         <Heading title="MY DASHBOARD" />
@@ -54,10 +45,10 @@ const UserDashboard = () => {
                 <Tab label="LENT" value="4" />
               </TabList>
             </Box>
-            <TabPanel value="1">Item One</TabPanel>
-            <TabPanel value="2">Item Two</TabPanel>
-            <TabPanel value="3">Item Three</TabPanel>
-            <TabPanel value="4">Item Four</TabPanel>
+            <TabPanel value="1"><BoughtData /></TabPanel>
+            <TabPanel value="2"><SoldData /></TabPanel>
+            <TabPanel value="3"> <BorrowedData /> </TabPanel>
+            <TabPanel value="4"> <LentData /> </TabPanel>
           </TabContext>
         </Box>
       </Box>

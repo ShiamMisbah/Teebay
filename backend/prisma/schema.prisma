@@ -51,7 +51,7 @@ model RentedProduct {
   dateStart String // Start date of the rental period
   dateEnd String // End date of the rental period
   productId Int // Foreign key for the product being rented
-  product Product @relation(fields: [productId], references: [id]) // Relation to the product being rented
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Relation to the product being rented
   originalUserId Int // Foreign key for the user who owns the product
   originalUser User @relation("original", fields: [originalUserId], references: [id]) // Relation to the original owner of the product
   rentedUserId Int? // Foreign key for the user renting the product
@@ -63,7 +63,7 @@ model SoldProduct {
   id Int @id @default(autoincrement()) // Unique identifier for the sold product
   dateSold DateTime // Date when the product was sold
   productId Int // Foreign key for the product being sold
-  product Product @relation(fields: [productId], references: [id]) // Relation to the product being sold
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade) // Relation to the product being sold
   originalUserId Int // Foreign key for the user who sold the product
   originalUser User @relation("original", fields: [originalUserId], references: [id]) // Relation to the original seller of the product
   boughtUserId Int? // Foreign key for the user buying the product

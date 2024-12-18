@@ -15,14 +15,10 @@ const ProductCard = ({ product, isMy=false }) => {
   const navigate = useNavigate()
   const [deleteProduct, { data: productData, loading, error }] = useMutation(DELETE_PRODUCTS);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
+  const handleOpen = (e) => {
+    e.stopPropagation()
+    setOpen(true)};
   const handleClose = () => setOpen(false);
-
-
-  const handleToggle = () => {
-    console.log(product.description);
-  };
-
 
   const handleCardClick = (id) => {
     if (isMy){
@@ -41,6 +37,7 @@ const ProductCard = ({ product, isMy=false }) => {
       alert(productData.deleteProduct.message);
     }
     handleClose()
+    navigate(0)
   }
 
   return (
@@ -50,6 +47,14 @@ const ProductCard = ({ product, isMy=false }) => {
           border: "1px solid gray",
           cursor: "pointer",
           position: "relative",
+          backgroundColor: `${
+            product.productStatus === "POSTED"
+              ? "#F0FFF0"
+              : product.productStatus === "RENTED"
+              ? "#98FB98"
+              : "#008000"
+          }`,
+          color: `${product.productStatus === "SOLD" ? "#FFF" : "inherit"}`,
         }}
         onClick={() => handleCardClick(product.id)}
       >
@@ -57,23 +62,50 @@ const ProductCard = ({ product, isMy=false }) => {
           <IconButton
             onClick={handleOpen}
             aria-label="delete"
-            sx={{ position: "absolute", right: "10px", top: "10px" }}
+            sx={{
+              position: "absolute",
+              right: "10px",
+              top: "10px",
+              color: `${
+                product.productStatus === "SOLD" ? "#FFF" : "text.primary"
+              }`,
+            }}
           >
             <DeleteIcon />
           </IconButton>
         )}
         <CardContent>
-          <Typography gutterBottom variant="h5" sx={{ color: "text.primary" }}>
+          <Typography
+            gutterBottom
+            variant="h5"
+            sx={{
+              color: `${
+                product.productStatus === "SOLD" ? "#FFF" : "text.primary"
+              }`,
+            }}
+          >
             {product.title}
           </Typography>
           <Typography
             gutterBottom
             component="div"
-            sx={{ color: "text.secondary" }}
+            sx={{
+              color: `${
+                product.productStatus === "SOLD" ? "#FFF" : "text.primary"
+              }`,
+            }}
           >
             Categories: {product.category.join(", ")}
           </Typography>
-          <Typography gutterBottom sx={{ color: "text.secondary", mb: 1.5 }}>
+          <Typography
+            gutterBottom
+            sx={{
+              color: `${
+                product.productStatus === "SOLD" ? "#FFF" : "text.primary"
+              }`,
+              mb: 1.5,
+            }}
+          >
             Price: $ {product.price} | Rent: $ {product.rent}{" "}
             {product.rentOption}
           </Typography>
@@ -92,15 +124,20 @@ const ProductCard = ({ product, isMy=false }) => {
               {product.description}
             </Typography>
           </Box>
-
+          <Typography variant="body2" mt={3}>
+            Product Status {product.productStatus}
+          </Typography>
           <Box
             display="flex"
             justifyContent="space-between"
-            sx={{ color: "text.secondary" }}
-            mt={3}
+            sx={{
+              color: `${
+                product.productStatus === "SOLD" ? "#FFF" : "text.primary"
+              }`,
+            }}
           >
             <Typography variant="body2">
-              Posted At {product.createdAt}
+              Posted At {new Date(Number(product.createdAt)).toISOString()}
             </Typography>
             <Typography variant="body2">123456 Views</Typography>
           </Box>
@@ -131,9 +168,17 @@ const ProductCard = ({ product, isMy=false }) => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Are you sure you want to delete this product?
           </Typography>
-          <Box display='flex' justifyContent='space-between' mt={3}>
-            <Button onClick={()=>handleDeleteProduct(product.id)} variant="contained" color="error">Yes</Button>
-            <Button onClick={handleClose} variant="contained" color="info">No</Button>
+          <Box display="flex" justifyContent="space-between" mt={3}>
+            <Button
+              onClick={() => handleDeleteProduct(product.id)}
+              variant="contained"
+              color="error"
+            >
+              Yes
+            </Button>
+            <Button onClick={handleClose} variant="contained" color="info">
+              No
+            </Button>
           </Box>
         </Box>
       </Modal>
